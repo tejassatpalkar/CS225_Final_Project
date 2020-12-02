@@ -5,13 +5,14 @@
 
 #pragma once
 
+#include "Airport.h"
+
 #include <string>
 #include <limits.h>
-#include <Airport.h>
 
 using std::string;
 
-typedef Airport Vertex;
+typedef string Vertex;
 
 /**
  * Represents an edge in a graph; used by the Graph class.
