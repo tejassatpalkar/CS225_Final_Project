@@ -1,5 +1,5 @@
 EXENAME = finalproj
-OBJS = Utility.o main.o
+OBJS = readFromFile.o main.o RouteGraph.o graph.o Utility.o
 
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
@@ -30,14 +30,20 @@ output_msg: ; $(CLANG_VERSION_MSG)
 $(EXENAME): output_msg $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(EXENAME)
 
-main.o: main.cpp Utility.h
-	$(CXX) $(CXXFLAGS) main.cpp
-
 Utility.o: Utility.cpp Utility.h
 	$(CXX) $(CXXFLAGS) Utility.cpp
 
-test_Dist: output_msg catch/catchmain.cpp tests/tests.cpp readFromFile.cpp
-	$(LD) catch/catchmain.cpp tests/tests.cpp readFromFile.cpp $(LDFLAGS) -o test_Dist
+graph.o : graph.cpp edge.h
+	$(CXX) $(CXXFLAGS) graph.cpp edge.h
+
+RouteGraph.o: main.cpp RouteGraph.cpp graph.cpp
+	$(CXX) $(CXXFLAGS) main.cpp RouteGraph.cpp graph.cpp
+
+readFromFile.o: main.cpp readFromFile.cpp
+	$(CXX) $(CXXFLAGS) main.cpp readFromFile.cpp
+
+test: output_msg catch/catchmain.cpp tests/tests.cpp readFromFile.cpp
+	$(LD) catch/catchmain.cpp tests/tests.cpp readFromFile.cpp $(LDFLAGS) -o test
 
 clean:
 	-rm -f *.o $(EXENAME) test
