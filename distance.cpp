@@ -1,7 +1,7 @@
 #include "distance.h"
 
 /**
- * Finds the distance between two coordinates on the map
+ * Finds the distance in km between two coordinates on the map
  * @param coordinate1 Coordinate of First Airport (Latitude, Longitude) 
  * @param coordinate2 Coordinate of Second Airport (Latitude, Longitude)
  * @return The distance between the two coordinates ignoring elevation
