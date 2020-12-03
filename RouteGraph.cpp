@@ -43,7 +43,7 @@ void RouteGraph::BFS(Vertex vertex, vector<RouteDistance>& routes) {
         /* get next vertex */
         Vertex currVertex = vertexStorage.front();
         vertexStorage.pop();
-
+        
         /* iterate through adjacent vertices */
         for (const Vertex& adjVertex : graph_.getAdjacent(currVertex)) {
             /* check if not visited */
@@ -58,10 +58,16 @@ void RouteGraph::BFS(Vertex vertex, vector<RouteDistance>& routes) {
                 /* add to list of routes */
                 Edge currEdge = graph_.getEdge(currVertex, adjVertex);
                 routes.push_back(RouteDistance(Route(currEdge.source, currEdge.dest), currEdge.getWeight()));
+
             } 
             /* check for and update cross edges */
             else if (graph_.getEdgeLabel(currVertex, adjVertex) == "UNEXPLORED") {
+                /* update label */
                 graph_.setEdgeLabel(currVertex, adjVertex, "CROSS");
+
+                /* add to list of routes */
+                Edge currEdge = graph_.getEdge(currVertex, adjVertex);
+                routes.push_back(RouteDistance(Route(currEdge.source, currEdge.dest), currEdge.getWeight()));
             }
         }
     }
@@ -71,6 +77,8 @@ void RouteGraph::BFS(Vertex vertex, vector<RouteDistance>& routes) {
 void RouteGraph::parseRoutes(string fileName) {
     /* creates a vector of strings */
     vector<string> data = file_to_vector(fileName);
+    int num_valid = 0;
+    int num_vertices_added = 0;
 
     /* iterates through each entry */
     for (const string& entry : data) {
@@ -83,16 +91,20 @@ void RouteGraph::parseRoutes(string fileName) {
         string dest = route.second;
 
         /* edge case check for validity */
-        if (source == "" || dest == "") {
+        if (source == "" && dest == "") {
             continue;
         }
+
+        num_valid++;
         
         /* adds the vertices to the graph and map if nonexistant in the graph */
         if (!graph_.vertexExists(source)) {
+            num_vertices_added++;
             graph_.insertVertex(source);
             visitedMap_[source] = false;
         }
         if (!graph_.vertexExists(dest)) {
+            num_vertices_added++;
             graph_.insertVertex(dest);
             visitedMap_[dest] = false;
         }
@@ -103,7 +115,8 @@ void RouteGraph::parseRoutes(string fileName) {
         graph_.setEdgeLabel(source, dest, "UNEXPLORED");
     }
 
-
+    std::cout << "there were " << graph_.getEdges().size() << " edges added" << endl;
+    std::cout << "there were " << graph_.getVertices().size() << " vertices added" << endl;
 }
 
 Route RouteGraph::parseEntry(string entry) {
@@ -124,10 +137,10 @@ Route RouteGraph::parseEntry(string entry) {
     vals.push_back(entry);
 
     /* return an invalid route if the entry is invalid */
-    if (vals.size() <= 4) {
+    if (vals.size() <= 5) {
         return Route("", "");
     }
 
     /* return the correct route otherwise */
-    return Route(vals[2], vals[4]);
+    return Route(vals[3], vals[5]);
 }

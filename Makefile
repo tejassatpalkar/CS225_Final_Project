@@ -1,5 +1,5 @@
 EXENAME = finalproj
-OBJS = readFromFile.o main.o RouteGraph.o graph.o
+OBJS = readFromFile.o main.o RouteGraph.o graph.o Utility.o
 
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
@@ -30,6 +30,8 @@ output_msg: ; $(CLANG_VERSION_MSG)
 $(EXENAME): output_msg $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(EXENAME)
 
+Utility.o: Utility.cpp Utility.h
+	$(CXX) $(CXXFLAGS) Utility.cpp
 
 graph.o : graph.cpp edge.h
 	$(CXX) $(CXXFLAGS) graph.cpp edge.h

@@ -54,7 +54,7 @@ class RouteGraph {
         void BFS(Vertex vertex, vector<RouteDistance>& routes);
 
         /* initialize graph object */
-        Graph graph_ = Graph(true);
+        Graph graph_ = Graph(true, true);
 
         /* initialize map for tracking visits */
         unordered_map<string, bool> visitedMap_ = unordered_map<string, bool>();

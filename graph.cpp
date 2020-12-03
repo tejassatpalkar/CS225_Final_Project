@@ -236,7 +236,7 @@ bool Graph::insertEdge(Vertex source, Vertex destination)
     if(adjacency_list.find(source)!= adjacency_list.end() 
     && adjacency_list[source].find(destination)!= adjacency_list[source].end())
     {
-        //edge already exit
+        //edge already exist
         return false;
     }
 
