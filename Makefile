@@ -1,5 +1,5 @@
 EXENAME = finalproj
-OBJS = readFromFile.o main.o RouteGraph.o Route.o graph.o
+OBJS = readFromFile.o main.o RouteGraph.o graph.o
 
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
@@ -34,11 +34,8 @@ $(EXENAME): output_msg $(OBJS)
 graph.o : graph.cpp edge.h
 	$(CXX) $(CXXFLAGS) graph.cpp edge.h
 
-Route.o : Route.cpp
-	$(CXX) $(CXXFLAGS) Route.cpp
-
-RouteGraph.o: main.cpp RouteGraph.cpp Route.cpp graph.cpp
-	$(CXX) $(CXXFLAGS) main.cpp RouteGraph.cpp Route.cpp graph.cpp
+RouteGraph.o: main.cpp RouteGraph.cpp graph.cpp
+	$(CXX) $(CXXFLAGS) main.cpp RouteGraph.cpp graph.cpp
 
 readFromFile.o: main.cpp readFromFile.cpp
 	$(CXX) $(CXXFLAGS) main.cpp readFromFile.cpp

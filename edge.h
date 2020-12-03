@@ -12,6 +12,7 @@
 
 using std::string;
 
+
 typedef string Vertex;
 
 /**
@@ -23,6 +24,7 @@ typedef string Vertex;
 class Edge
 {
   public:
+
     Vertex source; /**< The source of the edge **/
     Vertex dest; /**< The destination of the edge **/
 
@@ -62,7 +64,7 @@ class Edge
     /**
      * Default constructor.
      */
-    Edge() : source(""), dest(""), label(""), weight(-1)
+    Edge() : source(), dest(), label(""), weight(-1)
     { /* nothing */
     }
 

@@ -57,6 +57,7 @@ using std::unordered_map;
 class Graph
 {
 public:
+
     /**
      * Constructor to create an empty graph.
      * @param weighted - specifies whether the graph is a weighted graph or
@@ -138,7 +139,7 @@ public:
      * @return - if edge exists, set the label to the corresponding edge(if not directed, set the reverse one too), return edge with new label
      *         - if edge doesn't exist, return InvalidEdge
      */
-        Edge setEdgeLabel(Vertex source, Vertex destination, string label);
+    Edge setEdgeLabel(Vertex source, Vertex destination, string label);
 
     /**
      * Gets the edge label of the edge between vertices u and v.
