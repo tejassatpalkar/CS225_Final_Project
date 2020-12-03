@@ -55,7 +55,9 @@ void RouteGraph::BFS(Vertex vertex, vector<RouteDistance>& routes) {
                 /* add to queue */
                 vertexStorage.push(adjVertex);
 
-                /* add to route */
+                /* add to list of routes */
+                Edge currEdge = graph_.getEdge(currVertex, adjVertex);
+                routes.push_back(RouteDistance(Route(currEdge.source, currEdge.dest), currEdge.getWeight()));
             } 
             /* check for and update cross edges */
             else if (graph_.getEdgeLabel(currVertex, adjVertex) == "UNEXPLORED") {
