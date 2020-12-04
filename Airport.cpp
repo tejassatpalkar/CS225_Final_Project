@@ -2,6 +2,8 @@
 
 using std::string;
 
+Airport::Airport(){};
+
 Airport::Airport(string name, int ID, string IATA, string ICAO, float latitude, float longuitude):
 name_(name), ID_(ID), IATA_(IATA), ICAO_(ICAO), latitude_(latitude), longuitude_(longuitude){}
 
