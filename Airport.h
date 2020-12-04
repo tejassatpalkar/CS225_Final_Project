@@ -6,6 +6,8 @@ using std::string;
 class Airport{
     public:
         // Constructor
+        Airport();
+
         Airport(string name, int ID, string IATA, string ICAO, float latitude, float longuitude);
     
         string getName();
