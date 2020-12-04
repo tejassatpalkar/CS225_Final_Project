@@ -68,6 +68,13 @@
         "queue": "cpp",
         "random": "cpp",
         "set": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "condition_variable": "cpp",
+        "future": "cpp",
+        "thread": "cpp",
+        "regex": "cpp",
+        "optional": "cpp",
+        "string_view": "cpp",
+        "stack": "cpp"
     }
 }
