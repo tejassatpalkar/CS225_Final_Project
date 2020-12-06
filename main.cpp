@@ -15,17 +15,13 @@ int main(int argc, const char * argv[]) {
 		return 2;
 	}
 
-	//Util util;
-	//double dist = util.distance(std::pair<double, double>(1.0, 1.0), std::pair<double, double>(1.0, 1.0));
-	//std::cout << "test distance is " << dist << std::endl;
-
 	/* create the airport list */
 	AirportList al(argv[1]);
 
 	/* create the route graph and pass in the airport list */
 	RouteGraph g(argv[2], al);
 
-
+	
 	vector<RouteDistance> v = g.getAllRoutes();
 
 	std::cout << v.size() << std::endl;

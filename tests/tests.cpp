@@ -13,8 +13,6 @@ using std::string;
 using std::vector;
 using std::unordered_map;
 
-
-
 TEST_CASE("Verify that file_to_string works on a small example") {
 	std::string res = file_to_string("tests/smallSample.txt");
 	// always check "expected" == "actual" --> be consistent
@@ -34,7 +32,6 @@ TEST_CASE("Verify that file_to_vector works on a small example") {
 
 TEST_CASE("Verify that Utility Class Distance function works") {
 	std::vector<std::string> data = file_to_vector("test_coordinates_distances.csv");
-	Util u;
 
 	std::vector<double> solutions{3039.15,1117.83, 12656.4, 9220.13, 2981.89};
 	std::pair<double,double> p1(33.63100052,-85.15200043);
@@ -50,11 +47,11 @@ TEST_CASE("Verify that Utility Class Distance function works") {
 
 	
 
-	REQUIRE(((u.distance(p1,p2) <= solutions[0] + solutions[0]*0.05) && (u.distance(p1,p2) >= solutions[0] - solutions[0]*0.05)));
-	REQUIRE(((u.distance(p3,p4) <= solutions[1] + solutions[1]*0.05) && (u.distance(p3,p4) >= solutions[1] - solutions[1]*0.05)));
-	REQUIRE(((u.distance(p5,p6) <= solutions[2] + solutions[2]*0.05) && (u.distance(p5,p6) >= solutions[2] - solutions[2]*0.05)));
-	REQUIRE(((u.distance(p7,p8) <= solutions[3] + solutions[3]*0.05) && (u.distance(p7,p8) >= solutions[3] - solutions[3]*0.05)));
-	REQUIRE(((u.distance(p9,p10) <= solutions[4] + solutions[4]*0.05) && (u.distance(p9,p10) >= solutions[4] - solutions[4]*0.05)));
+	REQUIRE(((distance(p1,p2) <= solutions[0] + solutions[0]*0.05) && (distance(p1,p2) >= solutions[0] - solutions[0]*0.05)));
+	REQUIRE(((distance(p3,p4) <= solutions[1] + solutions[1]*0.05) && (distance(p3,p4) >= solutions[1] - solutions[1]*0.05)));
+	REQUIRE(((distance(p5,p6) <= solutions[2] + solutions[2]*0.05) && (distance(p5,p6) >= solutions[2] - solutions[2]*0.05)));
+	REQUIRE(((distance(p7,p8) <= solutions[3] + solutions[3]*0.05) && (distance(p7,p8) >= solutions[3] - solutions[3]*0.05)));
+	REQUIRE(((distance(p9,p10) <= solutions[4] + solutions[4]*0.05) && (distance(p9,p10) >= solutions[4] - solutions[4]*0.05)));
 }
 
 
@@ -66,7 +63,8 @@ TEST_CASE("Validate the Creation of a RouteGraph", "[RouteGraph]") {
 	const int NUM_VERTICES = 3334;
 
 	/* objects to test */
-	RouteGraph rg("data/routes.dat");
+	AirportList al("data/airports.dat");
+	RouteGraph rg("data/routes.dat", al);
 	Graph graph = rg.getGraph();
 
 	/* sanity check for the number of airports and connections in the graph */
@@ -82,7 +80,7 @@ TEST_CASE("Validate the Creation of a RouteGraph", "[RouteGraph]") {
 		REQUIRE(graph.vertexExists("140"));
 
 		REQUIRE(!graph.vertexExists("0000"));
-		REQUIRE(!graph.vertexExists("1234321"));
+		REQUIRE(!graph.vertexExists("thiswontexist"));
 	}
 
 	/* check existence/nonexistence of random connections */
@@ -96,12 +94,21 @@ TEST_CASE("Validate the Creation of a RouteGraph", "[RouteGraph]") {
 	}
 
 	/* check weights of random connections */
+	SECTION("Check distance between airports") {
+
+		REQUIRE(graph.getEdgeWeight("1037", "1020") == (int) distance(pair<float, float>(-2.91917991638, 25.915399551399997),
+																	  pair<float, float>(-4.38575, 15.4446)));
+
+		REQUIRE(graph.getEdgeWeight("5461", "304") == (int) distance(pair<float, float>(54.1796989440918, -58.45750045776367),
+																	  pair<float, float>(50.459202, 4.45382)));
+	}
 }
 
 TEST_CASE("Validate BFS Traversal of a RouteGraph", "[RouteGraph]") {
 
 	/* objects to test */
-	RouteGraph rg("data/routes.dat");
+	AirportList al("data/airports.dat");
+	RouteGraph rg("data/routes.dat", al);
 	Graph graph = rg.getGraph();
 
 	vector<RouteDistance> routes = rg.getAllRoutes();

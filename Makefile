@@ -36,8 +36,8 @@ Utility.o: Utility.cpp Utility.h
 graph.o : graph.cpp edge.h
 	$(CXX) $(CXXFLAGS) graph.cpp edge.h
 
-RouteGraph.o: main.cpp RouteGraph.cpp graph.cpp
-	$(CXX) $(CXXFLAGS) main.cpp RouteGraph.cpp graph.cpp
+RouteGraph.o: main.cpp RouteGraph.cpp graph.cpp AirportList.cpp
+	$(CXX) $(CXXFLAGS) main.cpp RouteGraph.cpp graph.cpp AirportList.cpp
 
 readFromFile.o: main.cpp readFromFile.cpp
 	$(CXX) $(CXXFLAGS) main.cpp readFromFile.cpp
@@ -48,8 +48,8 @@ Airport.o : main.cpp Airport.cpp Airport.h
 AirportList.o: main.cpp AirportList.cpp  AirportList.hpp Airport.h readFromFile.hpp
 	$(CXX) $(CXXFLAGS) main.cpp AirportList.cpp Airport.cpp Airport.h readFromFile.cpp readFromFile.hpp
 
-test: output_msg catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp
-	$(LD) catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp $(LDFLAGS) -o test
+test: output_msg catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp AirportList.cpp Airport.cpp
+	$(LD) catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp AirportList.cpp Airport.cpp $(LDFLAGS) -o test
 
 clean:
 	-rm -f *.o $(EXENAME) test

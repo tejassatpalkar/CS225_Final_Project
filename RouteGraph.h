@@ -30,7 +30,7 @@ class RouteGraph {
     public:
 
         /**
-         * Default constructor that create the RouteGraph
+         * Default constructor to create a RouteGraph
          * @param fileName : the name of the file containing the routes
          * @param airportList : object containing airport information
          */
