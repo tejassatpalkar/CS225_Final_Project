@@ -144,3 +144,11 @@ Route RouteGraph::parseEntry(string entry) {
     /* return the correct route otherwise */
     return Route(vals[3], vals[5]);
 }
+
+/* --------------------- getters and setters --------------------- */
+
+int RouteGraph::getNumAirports() { return (int) graph_.getVertices().size(); }
+
+int RouteGraph::getNumConnections() { return (int) graph_.getEdges().size(); }
+
+Graph RouteGraph::getGraph() { return graph_; }

@@ -48,8 +48,8 @@ Airport.o : main.cpp Airport.cpp Airport.h
 AirportList.o: main.cpp AirportList.cpp  AirportList.hpp Airport.h readFromFile.hpp
 	$(CXX) $(CXXFLAGS) main.cpp AirportList.cpp Airport.cpp Airport.h readFromFile.cpp readFromFile.hpp
 
-test: output_msg catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp
-	$(LD) catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp $(LDFLAGS) -o test
+test: output_msg catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp
+	$(LD) catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp $(LDFLAGS) -o test
 
 clean:
 	-rm -f *.o $(EXENAME) test

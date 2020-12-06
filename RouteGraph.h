@@ -30,6 +30,14 @@ class RouteGraph {
          */
         vector<RouteDistance> getAllRoutes();
 
+        /* getters */
+
+        int getNumAirports();
+
+        int getNumConnections();
+
+        Graph getGraph();
+
     private:
     
         /**
