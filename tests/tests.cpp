@@ -99,8 +99,11 @@ TEST_CASE("Validate the Creation of a RouteGraph", "[RouteGraph]") {
 		REQUIRE(graph.getEdgeWeight("1037", "1020") == (int) distance(pair<float, float>(-2.91917991638, 25.915399551399997),
 																	  pair<float, float>(-4.38575, 15.4446)));
 
-		REQUIRE(graph.getEdgeWeight("5461", "304") == (int) distance(pair<float, float>(54.1796989440918, -58.45750045776367),
-																	  pair<float, float>(50.459202, 4.45382)));
+		REQUIRE(graph.getEdgeWeight("3370", "6397") == (int) distance(pair<float, float>(23.39240074157715, 113.29900360107422),
+																	  pair<float, float>(31.1302, 107.4295)));
+
+		REQUIRE(graph.getEdgeWeight("340", "2276") == (int) distance(pair<float, float>(50.033333, 8.570556),
+																	  pair<float, float>(25.0777, 121.233002)));
 	}
 }
 
@@ -130,8 +133,11 @@ TEST_CASE("Validate BFS Traversal of a RouteGraph", "[RouteGraph]") {
 			/* checks that the edge exists */
 			REQUIRE(graph.edgeExists(route.first, route.second));
 
-			/* validates the distance of the route */
+			/* validates the distance of the route matches the graph's weight */
 			REQUIRE(weight == graph.getEdgeWeight(route.first, route.second));
+
+			/* requires that the distance is valid (greater than or equal to 0) */
+			REQUIRE(weight >= 0);
 		}
 	}
 

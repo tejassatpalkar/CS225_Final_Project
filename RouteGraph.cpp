@@ -11,10 +11,7 @@ using std::vector;
 RouteGraph::RouteGraph(string fileName, AirportList airportList) {
     /* gets map of airport locations for weighting */
     airportLocations_ = airportList.getMap();
-
-    std::cout << to_string(airportLocations_["751"].first) + "," + to_string(airportLocations_["751"].second) << std::endl;
-    std::cout << to_string(airportLocations_["3370"].first) + "," + to_string(airportLocations_["3370"].second) << std::endl;
-
+    
     /* creates the graph */
     parseRoutes(fileName);
 }
