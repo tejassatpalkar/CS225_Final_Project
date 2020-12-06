@@ -1,13 +1,13 @@
 # pragma once
 # include <string>
 # include <vector>
-# include <map>
+# include <unordered_map>
 # include <utility>
 # include "Airport.h"
 
 using std::string;
 using std::vector;
-using std::map;
+using std::unordered_map;
 using std::pair;
 
 class AirportList{
@@ -49,7 +49,7 @@ class AirportList{
          * Returns a map which keys are ID of airports and values
          * are pairs of the airports' location(longitude and latitude)
          */
-        map<int,pair<float,float> > getMap();
+        unordered_map<string,pair<float,float>> getMap();
 
     private:
         /**

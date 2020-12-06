@@ -4,7 +4,7 @@
 
 using std::string;
 using std::vector;
-using std::map;
+using std::unordered_map;
 using std::pair;
 
 AirportList::AirportList(){
@@ -50,11 +50,11 @@ Airport AirportList::find(string Identifier){
     return Airport();
 }
 
-map<int,pair<float,float> > AirportList::getMap(){
-    map<int,pair<float,float> > memo;
+unordered_map<string,pair<float,float> > AirportList::getMap(){
+    unordered_map<string,pair<float,float>> memo;
     // update the map for each airport object present
     for (Airport air : list_){
-        memo.insert(pair<int, pair<float,float> >(air.getID(), pair<float,float>(air.getLatitude(),air.getLongitude())));
+        memo.insert(pair<string, pair<float,float> >(std::to_string(air.getID()), pair<float,float>(air.getLatitude(),air.getLongitude())));
     }
     return memo;
 }

@@ -8,7 +8,11 @@
 using std::string;
 using std::vector;
 
-RouteGraph::RouteGraph(string fileName) {
+RouteGraph::RouteGraph(string fileName, AirportList airportList) {
+
+    /* gets map of airport locations for weighting */
+    airportLocations_ = airportList.getMap();
+
     /* creates the graph */
     parseRoutes(fileName);
 }
@@ -77,8 +81,6 @@ void RouteGraph::BFS(Vertex vertex, vector<RouteDistance>& routes) {
 void RouteGraph::parseRoutes(string fileName) {
     /* creates a vector of strings */
     vector<string> data = file_to_vector(fileName);
-    int num_valid = 0;
-    int num_vertices_added = 0;
 
     /* iterates through each entry */
     for (const string& entry : data) {
@@ -91,32 +93,34 @@ void RouteGraph::parseRoutes(string fileName) {
         string dest = route.second;
 
         /* edge case check for validity */
-        if (source == "" && dest == "") {
+        if (source == "INVALID" && dest == "INVALID") {
             continue;
         }
-
-        num_valid++;
         
         /* adds the vertices to the graph and map if nonexistant in the graph */
         if (!graph_.vertexExists(source)) {
-            num_vertices_added++;
             graph_.insertVertex(source);
             visitedMap_[source] = false;
         }
         if (!graph_.vertexExists(dest)) {
-            num_vertices_added++;
             graph_.insertVertex(dest);
             visitedMap_[dest] = false;
         }
 
-        /* inserts the edge and sets the weight */
+        /* inserts the edge and sets its label */
         graph_.insertEdge(source, dest);
-        //graph_.setEdgeWeight(source, dest, route.getDistance());
         graph_.setEdgeLabel(source, dest, "UNEXPLORED");
+
+        /* use the map to get the location of the airports */
+        Location sourceLoc = airportLocations_[source];
+        Location destLoc = airportLocations_[dest];
+
+        /* set the weight of the edge to the distance between the locations */
+        graph_.setEdgeWeight(source, dest, distance(sourceLoc, destLoc));
     }
 
-    std::cout << "there were " << graph_.getEdges().size() << " edges added" << endl;
-    std::cout << "there were " << graph_.getVertices().size() << " vertices added" << endl;
+    //std::cout << "there were " << graph_.getEdges().size() << " edges added" << endl;
+    //std::cout << "there were " << graph_.getVertices().size() << " vertices added" << endl;
 }
 
 Route RouteGraph::parseEntry(string entry) {
@@ -124,7 +128,7 @@ Route RouteGraph::parseEntry(string entry) {
     /* declare needed variables */
     string delimiter = ",";
     size_t pos = 0;
-    std::string token;
+    string token;
     vector<string> vals;
 
     /* split by "," and add to vector 
@@ -134,11 +138,12 @@ Route RouteGraph::parseEntry(string entry) {
         vals.push_back(token);
         entry.erase(0, pos + delimiter.length());
     }
+    /* add final entry */
     vals.push_back(entry);
 
     /* return an invalid route if the entry is invalid */
     if (vals.size() <= 5) {
-        return Route("", "");
+        return Route("INVALID", "INVALID");
     }
 
     /* return the correct route otherwise */

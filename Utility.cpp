@@ -3,6 +3,7 @@
 # include <cmath>
 
 using std::pair;
+
 /**
  * Finds the distance in km between two coordinates on the map
  * @param coordinate1 Coordinate of First Airport (Latitude, Longitude) 
@@ -10,7 +11,7 @@ using std::pair;
  * @return The distance between the two coordinates ignoring elevation
  */
 
-double Util::distance(std::pair<double, double> coordinate1, std::pair<double,double> coordinate2){
+double distance(std::pair<double, double> coordinate1, std::pair<double,double> coordinate2){
     // Reference for this code is taken from https://www.movable-type.co.uk/scripts/latlong.html
 
     //constants
@@ -37,7 +38,7 @@ double Util::distance(std::pair<double, double> coordinate1, std::pair<double,do
     return radiusEarth * c;
 }
 
-std::pair<int,int> Util::location2graph(std::pair<float,float> location, int width, int height){
+std::pair<int,int> location2graph(std::pair<float,float> location, int width, int height){
     int w,h;
     w = floor(width/2.0*(1+location.second/180.0)+0.5);
     h = floor(height/2.0*(1+location.first/180.0)+0.5);

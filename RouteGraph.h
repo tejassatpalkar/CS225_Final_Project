@@ -1,19 +1,30 @@
 #pragma once
 
+/* needed std structures */
 #include <string>
 #include <unordered_map>
 #include <queue>
-#include "graph.h"
 
+/* external structures and functions */
+#include "graph.h"
+#include "AirportList.hpp"
+#include "Utility.h"
+
+/* shorthand imports */
 using std::string;
 using std::unordered_map;
 using std::queue;
 using std::pair;
 
+/* helpful typdefs */
 typedef pair<string, string> Route;
-
 typedef pair<Route, double> RouteDistance; 
+typedef pair<float, float> Location;
 
+/**
+* Class to store information about the airport routes
+* Supports BFS and Djikstra's Algorithm
+*/
 class RouteGraph {
 
     public:
@@ -21,8 +32,9 @@ class RouteGraph {
         /**
          * Default constructor that create the RouteGraph
          * @param fileName : the name of the file containing the routes
+         * @param airportList : object containing airport information
          */
-        RouteGraph(string fileName);
+        RouteGraph(string fileName, AirportList airportList);
 
         /**
          * Finds all of the routes in the data
@@ -30,7 +42,7 @@ class RouteGraph {
          */
         vector<RouteDistance> getAllRoutes();
 
-        /* getters */
+        /* --------------- getters --------------- */
 
         int getNumAirports();
 
@@ -66,4 +78,7 @@ class RouteGraph {
 
         /* initialize map for tracking visits */
         unordered_map<string, bool> visitedMap_ = unordered_map<string, bool>();
+
+        /* initialize map for storing airport locations */
+        unordered_map<string, Location> airportLocations_ = unordered_map<string, Location>();
 };
