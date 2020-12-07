@@ -8,6 +8,9 @@
 using std::string;
 using std::vector;
 
+
+RouteGraph::RouteGraph() { }
+
 RouteGraph::RouteGraph(string fileName, AirportList airportList) {
     /* gets map of airport locations for weighting */
     airportLocations_ = airportList.getMap();
@@ -60,8 +63,8 @@ void RouteGraph::BFS(Vertex vertex, vector<RouteDistance>& routes) {
 
                 /* add to list of routes */
                 Edge currEdge = graph_.getEdge(currVertex, adjVertex);
-                routes.push_back(RouteDistance(Route(currEdge.source, currEdge.dest), currEdge.getWeight()));
-
+                pair<Location, Location> locations = pair<Location, Location>(airportLocations_[currEdge.source], airportLocations_[currEdge.dest]);
+                routes.push_back(RouteDistance(Route(currEdge.source, currEdge.dest), locations));
             } 
             /* check for and update cross edges */
             else if (graph_.getEdgeLabel(currVertex, adjVertex) == "UNEXPLORED") {
@@ -70,7 +73,8 @@ void RouteGraph::BFS(Vertex vertex, vector<RouteDistance>& routes) {
 
                 /* add to list of routes */
                 Edge currEdge = graph_.getEdge(currVertex, adjVertex);
-                routes.push_back(RouteDistance(Route(currEdge.source, currEdge.dest), currEdge.getWeight()));
+                pair<Location, Location> locations = pair<Location, Location>(airportLocations_[currEdge.source], airportLocations_[currEdge.dest]);
+                routes.push_back(RouteDistance(Route(currEdge.source, currEdge.dest), locations));
             }
         }
     }

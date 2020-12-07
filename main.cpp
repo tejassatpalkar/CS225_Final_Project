@@ -4,6 +4,7 @@
 #include "RouteGraph.h"
 #include "Utility.h"
 #include "AirportList.hpp"
+#include "MapImage.h"
 
 int main(int argc, const char * argv[]) {
 	//std::cout << "Filename: " << argv[1] << std::endl;
@@ -15,15 +16,8 @@ int main(int argc, const char * argv[]) {
 		return 2;
 	}
 
-	/* create the airport list */
-	AirportList al(argv[1]);
 
-	/* create the route graph and pass in the airport list */
-	RouteGraph g(argv[2], al);
-
-	
-	vector<RouteDistance> v = g.getAllRoutes();
-
-	std::cout << v.size() << std::endl;
+	MapImage map(argv[1], argv[2]);
+	map.drawAirports("out.png");
 
 }

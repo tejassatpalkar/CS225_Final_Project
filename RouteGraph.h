@@ -18,8 +18,8 @@ using std::pair;
 
 /* helpful typdefs */
 typedef pair<string, string> Route;
-typedef pair<Route, double> RouteDistance; 
 typedef pair<float, float> Location;
+typedef pair<Route, pair<Location, Location>> RouteDistance; 
 
 /**
 * Class to store information about the airport routes
@@ -28,6 +28,11 @@ typedef pair<float, float> Location;
 class RouteGraph {
 
     public:
+
+        /**
+        * Empty constructor to supress errors
+        */
+        RouteGraph();
 
         /**
          * Default constructor to create a RouteGraph

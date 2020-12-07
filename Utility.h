@@ -19,4 +19,4 @@ double distance(std::pair<double , double> coordinate1, std::pair<double,double>
 * This is a utility function that transfers the latitude and longitude of
 * the airport to a pixel in the output graph.
 */
-std::pair<int,int> location2graph(std::pair<float,float> location, int width, int height);
+std::pair<int,int> location2graph(std::pair<float,float> location, int width, int height, int vertOffset);

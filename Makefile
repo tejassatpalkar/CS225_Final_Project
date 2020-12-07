@@ -1,5 +1,5 @@
 EXENAME = finalproj
-OBJS = readFromFile.o main.o RouteGraph.o graph.o Utility.o Airport.o AirportList.o
+OBJS = readFromFile.o main.o MapImage.o RouteGraph.o graph.o Utility.o Airport.o AirportList.o PNG.o HSLAPixel.o lodepng.o
 
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
@@ -30,6 +30,15 @@ output_msg: ; $(CLANG_VERSION_MSG)
 $(EXENAME): output_msg $(OBJS)
 	$(LD) $(OBJS) $(LDFLAGS) -o $(EXENAME)
 
+PNG.o : cs225/PNG.cpp cs225/PNG.h cs225/HSLAPixel.h cs225/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) cs225/PNG.cpp
+
+HSLAPixel.o : cs225/HSLAPixel.cpp cs225/HSLAPixel.h
+	$(CXX) $(CXXFLAGS) cs225/HSLAPixel.cpp
+
+lodepng.o : cs225/lodepng/lodepng.cpp cs225/lodepng/lodepng.h
+	$(CXX) $(CXXFLAGS) cs225/lodepng/lodepng.cpp
+
 Utility.o: Utility.cpp Utility.h
 	$(CXX) $(CXXFLAGS) Utility.cpp
 
@@ -38,6 +47,9 @@ graph.o : graph.cpp edge.h
 
 RouteGraph.o: main.cpp RouteGraph.cpp graph.cpp AirportList.cpp
 	$(CXX) $(CXXFLAGS) main.cpp RouteGraph.cpp graph.cpp AirportList.cpp
+
+MapImage.o: main.cpp MapImage.cpp RouteGraph.cpp graph.cpp AirportList.cpp cs225/PNG.cpp cs225/PNG.h cs225/HSLAPixel.cpp cs225/HSLAPixel.h
+	$(CXX) $(CXXFLAGS) main.cpp MapImage.cpp RouteGraph.cpp graph.cpp AirportList.cpp cs225/PNG.cpp cs225/PNG.h cs225/HSLAPixel.cpp cs225/HSLAPixel.h
 
 readFromFile.o: main.cpp readFromFile.cpp
 	$(CXX) $(CXXFLAGS) main.cpp readFromFile.cpp

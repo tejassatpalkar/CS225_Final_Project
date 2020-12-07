@@ -126,9 +126,11 @@ TEST_CASE("Validate BFS Traversal of a RouteGraph", "[RouteGraph]") {
 	SECTION("Validate connections and weights") {
 		/* iterates through every RouteDistane */
 		for (const RouteDistance& rd : routes) {
-			/* gets the current route and weight */
+			/* gets the current route, locations, and weight */
 			Route route = rd.first;
-			int weight = rd.second;
+			pair<Location, Location> locations = rd.second;
+
+			int weight = distance(locations.first, locations.second);
 
 			/* checks that the edge exists */
 			REQUIRE(graph.edgeExists(route.first, route.second));
@@ -150,7 +152,9 @@ TEST_CASE("Validate BFS Traversal of a RouteGraph", "[RouteGraph]") {
 		/* iterates through each route */
 		for (const RouteDistance& rd : routes) {
 			/* create a string representation of the object */
-			string repr = rd.first.first + "~" + rd.first.second + "~" + to_string(rd.second);
+			string repr = rd.first.first + "~" + rd.first.second + "~" + 
+						  to_string(rd.second.first.first) + "~" + to_string(rd.second.first.second) + "~" +
+						  to_string(rd.second.second.first) + "~" + to_string(rd.second.second.second);
 
 			/* check if the item exists in the map */
 			if (duplicates.find(repr) != duplicates.end()) {

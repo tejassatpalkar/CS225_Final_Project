@@ -38,9 +38,9 @@ double distance(std::pair<double, double> coordinate1, std::pair<double,double> 
     return radiusEarth * c;
 }
 
-std::pair<int,int> location2graph(std::pair<float,float> location, int width, int height){
+std::pair<int,int> location2graph(std::pair<float,float> location, int width, int height, int vertOffset){
     int w,h;
     w = floor(width/2.0*(1+location.second/180.0)+0.5);
     h = floor(height/2.0*(1+location.first/180.0)+0.5);
-    return pair<int,int>(w,h);
+    return pair<int,int>(w, height - h - vertOffset);
 }
