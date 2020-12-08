@@ -43,6 +43,11 @@ class MapImage {
         /* unordered map to lookup coordinates */
         unordered_map<string, Coordinate> locationMap_ = unordered_map<string, Coordinate>();
 
+        /* image adjustments */
+        int adjHeight_;
+        int adjWidth_;
+        int offset_;
+
         /**
         * Helper function to draw the border of every point on the map
         * @param coord : the coordinate of the location
@@ -51,8 +56,17 @@ class MapImage {
         */
         void drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, cs225::PNG& png);
 
-        
+        /**
+        * Initializes the map to locate airport xy-coordinates for O(1) lookup
+        * @param routes : a vector of RouteDistances obtained from the RouteGraph BFS
+        */
         void initializeLocationMap(vector<RouteDistance> routes);
 
+        /**
+        * Helper function to add an airport to the unordered map
+        * First checks to make sure the airport is not already in the unordered map
+        * @param airport : the unique ID of the airport
+        * @param location : the latitude/longitude location of the airport
+        */
         void addLocation(string airport, Location location);
 };
