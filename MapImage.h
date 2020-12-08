@@ -37,4 +37,12 @@ class MapImage {
 
         /* map background image */
         cs225::PNG backgroundImage_;
+
+        /**
+        * Helper function to draw the border of every point on the map
+        * @param coord : the coordinate of the location
+        * @param color : the color of the border
+        * @param png : the image to modify
+        */
+        void drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, cs225::PNG& png);
 };
