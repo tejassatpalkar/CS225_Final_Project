@@ -6,9 +6,11 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using std::string;
 using std::vector;
+using std::unordered_map;
 
 typedef std::pair<int, int> Coordinate;
 
@@ -38,6 +40,9 @@ class MapImage {
         /* map background image */
         cs225::PNG backgroundImage_;
 
+        /* unordered map to lookup coordinates */
+        unordered_map<string, Coordinate> locationMap_ = unordered_map<string, Coordinate>();
+
         /**
         * Helper function to draw the border of every point on the map
         * @param coord : the coordinate of the location
@@ -45,4 +50,9 @@ class MapImage {
         * @param png : the image to modify
         */
         void drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, cs225::PNG& png);
+
+        
+        void initializeLocationMap(vector<RouteDistance> routes);
+
+        void addLocation(string airport, Location location);
 };

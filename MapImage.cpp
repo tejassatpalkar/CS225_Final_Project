@@ -11,6 +11,7 @@ MapImage::MapImage(string airportFile, string routeFile) {
 
     /* initialize the file to read from */
     backgroundImage_.readFromFile("images/map.png");
+
 }
 
 
@@ -66,4 +67,27 @@ void MapImage::drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, 
     if (coord.second < (int) png.height() - 1) {
         png.getPixel(coord.first, coord.second + 1) = color;
     }
+}
+
+void MapImage::initializeLocationMap(vector<RouteDistance> routes) {
+
+    for (const RouteDistance& routeDistance : routes) {
+        /* grab our needed variables */
+        Route route = routeDistance.first;
+        pair<Location, Location> locations = routeDistance.second;
+
+        /* try to add both to the unordered map */
+        addLocation(route.first, locations.first);
+        addLocation(route.second, locations.second);
+    }
+}
+
+void MapImage::addLocation(string airport, Location location) {
+    /* edge case if already in the map */
+    if (locationMap_.find(airport) == locationMap_.end()) {
+        return;
+    }
+
+    /* otherwise, add to the map */
+    locationMap_[airport] = location;
 }
