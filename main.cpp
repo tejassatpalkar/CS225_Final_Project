@@ -19,5 +19,6 @@ int main(int argc, const char * argv[]) {
 
 	MapImage map(argv[1], argv[2]);
 	map.drawAirports("out.png");
+	map.drawRoute("507", "3127", "out.png", "outLine.png");
 
 }

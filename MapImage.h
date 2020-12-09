@@ -31,6 +31,16 @@ class MapImage {
         */
         void drawAirports(string outLocation);
 
+        /**
+         * Draws a Line between two airports. Does not draw the whole path. 
+         * @param source The airport to depart from
+         * @param dest The airport to travel to
+         * @param pngPath the path of the png to modify (must end in .png)
+         * @param outFileName the name of the output file
+         */
+        /*TODO: update documentation to match drawRoute Parameters*/
+        void drawRoute(string source, string dest, string pngPath, string outFileName);
+
 
     private:
 
@@ -39,6 +49,9 @@ class MapImage {
 
         /* map background image */
         cs225::PNG backgroundImage_;
+
+        /* map background image + airport overlay */
+        cs225::PNG backgroundImageAirports_;
 
         /* unordered map to lookup coordinates */
         unordered_map<string, Coordinate> locationMap_ = unordered_map<string, Coordinate>();
@@ -57,7 +70,15 @@ class MapImage {
         void drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, cs225::PNG& png);
 
         /**
-        * Initializes the map to locate airport xy-coordinates for O(1) lookup
+         * Helper function to draw Line between two coordinates
+         * @param start the starting Coordinate
+         * @param end the ending Coordinate
+         * @param color the color to draw the line with
+         * @param png the PNG to draw the line on
+         */
+        void drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel color, cs225::PNG& png);
+
+        /** Initializes the map to locate airport xy-coordinates for O(1) lookup
         * @param routes : a vector of RouteDistances obtained from the RouteGraph BFS
         */
         void initializeLocationMap(vector<RouteDistance> routes);
