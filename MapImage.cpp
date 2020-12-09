@@ -77,26 +77,31 @@ void MapImage::drawRoute(string source, string dest){
     /* Looks up prevously stored pixel coordinates of source and dest airports */
 
     /* TODO: Fix the lookup system */
+
     Coordinate start,end;
-    // auto it = locationMap_.find(source);
-    // if (it != locationMap_.end()){
-    //      start= (*it).second;
-    // }
-    // else {return;}
-    // it = locationMap_.find(dest);
-    // if (it != locationMap_.end()){
-    //      end= (*it).second;
-    // }
-    // else {return;}
+    auto it = locationMap_.find(source);
+    if (it != locationMap_.end()){
+         start= (*it).second;
+    }
+    else {return;}
+    it = locationMap_.find(dest);
+    if (it != locationMap_.end()){
+         end= (*it).second;
+    }
+    else {return;}
+
+    /* END of TODO: */
 
     //Testing without looking up the coordinates
-    start.first = outImage.width()/4;
-    start.second = 100;
-    end.first = outImage.width() - outImage.width()/3; 
-    end.second = outImage.height() -300;
+    // start.first = outImage.width()/4;
+    // start.second = 100;
+    // end.first = outImage.width() - outImage.width()/4; 
+    // end.second = outImage.height() -300;
 
     /* Draws the Line between the two points */
     drawLine(start, end, ROUTE_PIXEL, outImage);
+
+    /* TODO: Get rid of this file write*/
     outImage.writeToFile("outLine.png");
 
 }
@@ -114,7 +119,7 @@ void MapImage::drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel
     delta_x = x2-x1;
     delta_y = y2-y1;
 
-    
+    /* This segment checks if it is closer for the line to wrap around the image */
     double stdDistance = sqrt(delta_x * delta_x + delta_y * delta_y);
     double wx1 = x1, wx2 = x2, wdelta_x;
     if (x1 <= x2){
@@ -147,7 +152,6 @@ void MapImage::drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel
     for (unsigned i = 0; i < s; i++){
         int width = png.width();
         int x =  ((((int) round(x1)) % width) + width) % width;
-        unsigned y = (unsigned)(round(y1));
         cs225::HSLAPixel & pixel = png.getPixel((unsigned) x, (unsigned)(round(y1)));
         
         pixel = color;

@@ -32,11 +32,12 @@ class MapImage {
         void drawAirports(string outLocation);
 
         /**
-         * Draws a Line between two airports
+         * Draws a Line between two airports. Does not draw the whole path. 
          * @param source The airport to depart from
          * @param dest The airport to travel to
-         * @param color The color to draw the route; Parameter is optional and the default is green
+         * @param pngPath the path of the png to modify (must end in .png)
          */
+        /*TODO: update documentation to match drawRoute Parameters*/
         void drawRoute(string source, string dest);
 
 
