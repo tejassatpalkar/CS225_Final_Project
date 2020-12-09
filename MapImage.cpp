@@ -1,6 +1,7 @@
 #include "MapImage.h"
 #include "cs225/PNG.h"
 #include "Utility.h"
+#include "math.h"
 
 MapImage::MapImage(string airportFile, string routeFile) {
     /* create the airport list */
@@ -66,4 +67,25 @@ void MapImage::drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, 
     if (coord.second < (int) png.height() - 1) {
         png.getPixel(coord.first, coord.second + 1) = color;
     }
+}
+
+
+void MapImage::drawRoute(Airport source, Airport dest, cs225::HSLAPixel color){
+
+}
+
+void MapImage::drawLine(Coordinate start, Coordinate end){
+
+    //This uses the DDA algorithm 
+    double x1,x2, y1,y2, slope, delta_x, delta_y;
+    x1 = start.first;
+    y1 = start.second;
+    x2 = end.first;
+    y2 = end.second;
+    delta_x = x2-x1;
+    delta_y = y2-y1;
+
+    slope = -1 * (y2 -y1)/(x2-x1);
+
+    // https://www.youtube.com/watch?v=W5P8GlaEOSI
 }
