@@ -78,22 +78,22 @@ void MapImage::drawRoute(string source, string dest){
 
     /* TODO: Fix the lookup system */
     Coordinate start,end;
-    auto it = locationMap_.find(source);
-    if (it != locationMap_.end()){
-         start= (*it).second;
-    }
-    else {return;}
-    it = locationMap_.find(dest);
-    if (it != locationMap_.end()){
-         end= (*it).second;
-    }
-    else {return;}
+    // auto it = locationMap_.find(source);
+    // if (it != locationMap_.end()){
+    //      start= (*it).second;
+    // }
+    // else {return;}
+    // it = locationMap_.find(dest);
+    // if (it != locationMap_.end()){
+    //      end= (*it).second;
+    // }
+    // else {return;}
 
     //Testing without looking up the coordinates
-    // start.first = 0;
-    // start.second = 0;
-    // end.first = 500; 
-    // end.second = 500;
+    start.first = outImage.width()/4;
+    start.second = 100;
+    end.first = outImage.width() - outImage.width()/3; 
+    end.second = outImage.height() -300;
 
     /* Draws the Line between the two points */
     drawLine(start, end, ROUTE_PIXEL, outImage);
@@ -113,6 +113,24 @@ void MapImage::drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel
     y2 = end.second;
     delta_x = x2-x1;
     delta_y = y2-y1;
+
+    
+    double stdDistance = sqrt(delta_x * delta_x + delta_y * delta_y);
+    double wx1 = x1, wx2 = x2, wdelta_x;
+    if (x1 <= x2){
+        wx2 = wx2 - png.width();
+    } else {
+        wx1 = wx1 - png.width();
+    }
+    wdelta_x = wx2 - wx1;
+    double wDistance = sqrt(wdelta_x * wdelta_x + delta_y * delta_y);
+
+    if (wDistance <= stdDistance){
+        delta_x = wdelta_x;
+        x1 = wx1;
+        x2 = wx2;
+    }
+    
     
     /* Essentailly checking if slope is greater than or less than one to determine step size */
     if (abs(delta_x) > abs(delta_y)){
@@ -127,7 +145,10 @@ void MapImage::drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel
 
     /* Replace pixel with color to mark path */
     for (unsigned i = 0; i < s; i++){
-        cs225::HSLAPixel & pixel = png.getPixel((unsigned)(round(x1)), (unsigned)(round(y1)));
+        int width = png.width();
+        int x =  ((((int) round(x1)) % width) + width) % width;
+        unsigned y = (unsigned)(round(y1));
+        cs225::HSLAPixel & pixel = png.getPixel((unsigned) x, (unsigned)(round(y1)));
         
         pixel = color;
         x1 = x1 + xinc;
