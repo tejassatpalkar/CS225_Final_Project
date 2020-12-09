@@ -36,9 +36,10 @@ class MapImage {
          * @param source The airport to depart from
          * @param dest The airport to travel to
          * @param pngPath the path of the png to modify (must end in .png)
+         * @param outFileName the name of the output file
          */
         /*TODO: update documentation to match drawRoute Parameters*/
-        void drawRoute(string source, string dest);
+        void drawRoute(string source, string dest, string pngPath, string outFileName);
 
 
     private:

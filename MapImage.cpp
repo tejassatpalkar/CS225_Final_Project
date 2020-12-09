@@ -68,27 +68,31 @@ void MapImage::drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, 
 }
 
 
-void MapImage::drawRoute(string source, string dest){
+void MapImage::drawRoute(string source, string dest, string pngPath, string outFileName){
     
     /* Creates Pixel to Color Routes */
     const cs225::HSLAPixel ROUTE_PIXEL = cs225::HSLAPixel(120, 1, 0.5, 1);
-    cs225::PNG outImage(backgroundImageAirports_);
+    //cs225::PNG outImage(backgroundImageAirports_);
+    cs225::PNG outImage;
+    outImage.readFromFile(pngPath);
 
     /* Looks up prevously stored pixel coordinates of source and dest airports */
 
     /* TODO: Fix the lookup system */
 
     Coordinate start,end;
-    auto it = locationMap_.find(source);
-    if (it != locationMap_.end()){
-         start= (*it).second;
-    }
-    else {return;}
-    it = locationMap_.find(dest);
-    if (it != locationMap_.end()){
-         end= (*it).second;
-    }
-    else {return;}
+    // auto it = locationMap_.find(source);
+    // if (it != locationMap_.end()){
+    //      start= (*it).second;
+    // }
+    // else {return;}
+    // it = locationMap_.find(dest);
+    // if (it != locationMap_.end()){
+    //      end= (*it).second;
+    // }
+    // else {return;}
+    start = locationMap_[source];
+    end = locationMap_[dest];
 
     /* END of TODO: */
 
@@ -102,7 +106,7 @@ void MapImage::drawRoute(string source, string dest){
     drawLine(start, end, ROUTE_PIXEL, outImage);
 
     /* TODO: Get rid of this file write*/
-    outImage.writeToFile("outLine.png");
+    outImage.writeToFile(outFileName);
 
 }
 
