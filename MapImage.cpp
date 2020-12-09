@@ -75,23 +75,25 @@ void MapImage::drawRoute(string source, string dest){
     cs225::PNG outImage(backgroundImageAirports_);
 
     /* Looks up prevously stored pixel coordinates of source and dest airports */
+
+    /* TODO: Fix the lookup system */
     Coordinate start,end;
-    // auto it = locationMap_.find(source);
-    // if (it != locationMap_.end()){
-    //      start= (*it).second;
-    // }
-    // else {return;}
-    // it = locationMap_.find(dest);
-    // if (it != locationMap_.end()){
-    //      end= (*it).second;
-    // }
-    // else {return;}
+    auto it = locationMap_.find(source);
+    if (it != locationMap_.end()){
+         start= (*it).second;
+    }
+    else {return;}
+    it = locationMap_.find(dest);
+    if (it != locationMap_.end()){
+         end= (*it).second;
+    }
+    else {return;}
 
     //Testing without looking up the coordinates
-    start.first = 0;
-    start.second = 0;
-    end.first = 500; 
-    end.second = 500;
+    // start.first = 0;
+    // start.second = 0;
+    // end.first = 500; 
+    // end.second = 500;
 
     /* Draws the Line between the two points */
     drawLine(start, end, ROUTE_PIXEL, outImage);
