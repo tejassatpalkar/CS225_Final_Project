@@ -23,9 +23,7 @@ MapImage::MapImage(string airportFile, string routeFile) {
 }
 
 
-void MapImage::drawAirports(string outLocation) {
-    /* create a copy of the image to draw the airports */
-    cs225::PNG outImage(backgroundImage_);
+void MapImage::drawAirports(cs225::PNG& image) {
 
     /* creates the center and border pixels */
     const cs225::HSLAPixel POINT_PIXEL = cs225::HSLAPixel(20, 1, 0.5, 1);
@@ -38,15 +36,31 @@ void MapImage::drawAirports(string outLocation) {
         Coordinate coord = locationItr->second;
 
         /* draw on the picture accordingly */
-        outImage.getPixel(coord.first, coord.second) = POINT_PIXEL;
-        drawPointBorders(coord, BORDER_PIXEL, outImage);
+        image.getPixel(coord.first, coord.second) = POINT_PIXEL;
+        drawPointBorders(coord, BORDER_PIXEL, image);
     }
 
-    /* output the image file */
-    outImage.writeToFile(outLocation);
-    /* store image to private variable */
-    backgroundImageAirports_ = outImage;
 }
+
+
+void MapImage::drawShortestPath(string source, string dest, string outFileName) {
+
+
+    //vector<string> path = graph_.djikstra(source, dest);
+    vector<string> path = vector<string>{"1905", "146", "6343"};
+
+    cs225::PNG airportMap(backgroundImage_);
+
+    drawAirports(airportMap);
+
+    for (int routeIndex = 0; routeIndex < (int) path.size() - 1; routeIndex++) {
+        drawRoute(path[routeIndex], path[routeIndex + 1], airportMap);
+    }
+
+    airportMap.writeToFile(outFileName);
+
+}
+
 
 void MapImage::drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, cs225::PNG& png) {
 
@@ -68,46 +82,28 @@ void MapImage::drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, 
 }
 
 
-void MapImage::drawRoute(string source, string dest, string pngPath, string outFileName){
+void MapImage::drawRoute(string source, string dest, cs225::PNG& image){
     
     /* Creates Pixel to Color Routes */
     const cs225::HSLAPixel ROUTE_PIXEL = cs225::HSLAPixel(120, 1, 0.5, 1);
     //cs225::PNG outImage(backgroundImageAirports_);
-    cs225::PNG outImage;
-    outImage.readFromFile(pngPath);
+    //cs225::PNG outImage;
+    //outImage.readFromFile(pngPath);
 
     /* Looks up prevously stored pixel coordinates of source and dest airports */
 
     /* TODO: Fix the lookup system */
 
-    Coordinate start,end;
-    // auto it = locationMap_.find(source);
-    // if (it != locationMap_.end()){
-    //      start= (*it).second;
-    // }
-    // else {return;}
-    // it = locationMap_.find(dest);
-    // if (it != locationMap_.end()){
-    //      end= (*it).second;
-    // }
-    // else {return;}
-    start = locationMap_[source];
-    end = locationMap_[dest];
+    Coordinate start = locationMap_[source];
+    Coordinate end = locationMap_[dest];
 
     /* END of TODO: */
 
-    //Testing without looking up the coordinates
-    // start.first = outImage.width()/4;
-    // start.second = 100;
-    // end.first = outImage.width() - outImage.width()/4; 
-    // end.second = outImage.height() -300;
-
     /* Draws the Line between the two points */
-    drawLine(start, end, ROUTE_PIXEL, outImage);
+    drawLine(start, end, ROUTE_PIXEL, image);
 
     /* TODO: Get rid of this file write*/
-    outImage.writeToFile(outFileName);
-
+    //outImage.writeToFile(outFileName);
 }
 
 void MapImage::drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel color, cs225::PNG& png){
@@ -162,11 +158,8 @@ void MapImage::drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel
         x1 = x1 + xinc;
         y1 = y1 + yinc;
     }
-
-
-    
-
 }
+
 void MapImage::initializeLocationMap(vector<RouteDistance> routes) {
 
     /* iterate through each route */

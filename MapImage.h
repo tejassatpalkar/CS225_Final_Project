@@ -26,21 +26,12 @@ class MapImage {
         MapImage(string airportFile, string routeFile);
 
         /**
-        * Draws the location and connection of airports on the image
-        * @param outLocation : the desired image output
+        * Draws the shortest path between two airports using Dijkstra's algorithm
+        * @param source : the source airport
+        * @param dest : the destination airport
+        * @param outFileName : the file location to be written to
         */
-        void drawAirports(string outLocation);
-
-        /**
-         * Draws a Line between two airports. Does not draw the whole path. 
-         * @param source The airport to depart from
-         * @param dest The airport to travel to
-         * @param pngPath the path of the png to modify (must end in .png)
-         * @param outFileName the name of the output file
-         */
-        /*TODO: update documentation to match drawRoute Parameters*/
-        void drawRoute(string source, string dest, string pngPath, string outFileName);
-
+        void drawShortestPath(string source, string dest, string outFileName);
 
     private:
 
@@ -49,9 +40,6 @@ class MapImage {
 
         /* map background image */
         cs225::PNG backgroundImage_;
-
-        /* map background image + airport overlay */
-        cs225::PNG backgroundImageAirports_;
 
         /* unordered map to lookup coordinates */
         unordered_map<string, Coordinate> locationMap_ = unordered_map<string, Coordinate>();
@@ -90,4 +78,18 @@ class MapImage {
         * @param location : the latitude/longitude location of the airport
         */
         void addLocation(string airport, Location location);
+
+        /**
+        * Draws the location and connection of airports on the image
+        * @param image : the desired image output
+        */
+        void drawAirports(cs225::PNG& image);
+
+        /**
+         * Draws a Line between two airports. Does not draw the whole path. 
+         * @param source The airport to depart from
+         * @param dest The airport to travel to
+         * @param image Reference to the png being written to
+         */
+        void drawRoute(string source, string dest, cs225::PNG& image);
 };
