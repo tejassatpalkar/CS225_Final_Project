@@ -1,5 +1,5 @@
 EXENAME = finalproj
-OBJS = readFromFile.o main.o MapImage.o RouteGraph.o graph.o Utility.o Airport.o AirportList.o PNG.o HSLAPixel.o lodepng.o Animation.o
+OBJS = readFromFile.o main.o MapImage.o RouteGraph.o graph.o Utility.o Airport.o AirportList.o PNG.o HSLAPixel.o lodepng.o Animation.o dijkstra.o
 
 CXX = clang++
 CXXFLAGS = $(CS225) -std=c++1y -stdlib=libc++ -c -g -O0 -Wall -Wextra -pedantic
@@ -62,6 +62,9 @@ Airport.o : main.cpp Airport.cpp Airport.h
 
 AirportList.o: main.cpp AirportList.cpp  AirportList.hpp Airport.h readFromFile.hpp
 	$(CXX) $(CXXFLAGS) main.cpp AirportList.cpp Airport.cpp Airport.h readFromFile.cpp readFromFile.hpp
+
+dijkstra.o: main.cpp dijkstra.cpp dijkstra.hpp Utility.h AirportList.hpp RouteGraph.h
+	$(CXX) $(CXXFLAGS) main.cpp dijkstra.cpp Utility.cpp AirportList.cpp RouteGraph.cpp
 
 test: output_msg catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp AirportList.cpp Airport.cpp
 	$(LD) catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp AirportList.cpp Airport.cpp $(LDFLAGS) -o test
