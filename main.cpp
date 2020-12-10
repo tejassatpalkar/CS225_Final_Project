@@ -22,5 +22,5 @@ int main(int argc, const char * argv[]) {
 	//map.drawRoute("507", "3127", "out.png", "outLine.png");
 
 	map.drawShortestPath("", "", "out.png");
-
+	map.playAnimation("out.gif");
 }

@@ -1,7 +1,6 @@
 #include "MapImage.h"
-#include "cs225/PNG.h"
-#include "Utility.h"
-#include "math.h"
+
+#include <iostream>
 
 MapImage::MapImage(string airportFile, string routeFile) {
     /* create the airport list */
@@ -25,10 +24,6 @@ MapImage::MapImage(string airportFile, string routeFile) {
 
 void MapImage::drawAirports(cs225::PNG& image) {
 
-    /* creates the center and border pixels */
-    const cs225::HSLAPixel POINT_PIXEL = cs225::HSLAPixel(20, 1, 0.5, 1);
-    const cs225::HSLAPixel BORDER_PIXEL = cs225::HSLAPixel(20, 1, 0.65, 1);
-
     /* iterate through every item in the unordered map */
     for (auto locationItr = locationMap_.begin(); locationItr != locationMap_.end(); ++locationItr) {
 
@@ -45,20 +40,37 @@ void MapImage::drawAirports(cs225::PNG& image) {
 
 void MapImage::drawShortestPath(string source, string dest, string outFileName) {
 
+    /* declare variables */
+    int frameCounter = 0;
+    cs225::PNG airportMap(backgroundImage_);
 
+    /* TODO: get the path using dijkstra's algorithm */
     //vector<string> path = graph_.djikstra(source, dest);
     vector<string> path = vector<string>{"1905", "146", "6343"};
 
-    cs225::PNG airportMap(backgroundImage_);
-
+    /* draw the airports on the map */
     drawAirports(airportMap);
 
+    /* iterate through each route */
     for (int routeIndex = 0; routeIndex < (int) path.size() - 1; routeIndex++) {
-        drawRoute(path[routeIndex], path[routeIndex + 1], airportMap);
+
+        /* draw the route */
+        drawRoute(path[routeIndex], path[routeIndex + 1], airportMap, frameCounter);
+
+        /* reset the frame data */
+        if (frameCounter % FRAME_SPEED != 0) {
+            animation_.addFrame(cs225::PNG(airportMap));
+        }
+        frameCounter = 0;
     }
 
+    /* draw the map */
     airportMap.writeToFile(outFileName);
+}
 
+void MapImage::playAnimation(string outFileName) {
+    /* calls the animation write method */
+    animation_.write(outFileName);
 }
 
 
@@ -82,10 +94,8 @@ void MapImage::drawPointBorders(Coordinate coord, const cs225::HSLAPixel color, 
 }
 
 
-void MapImage::drawRoute(string source, string dest, cs225::PNG& image){
+void MapImage::drawRoute(string source, string dest, cs225::PNG& image, int& frameCounter){
     
-    /* Creates Pixel to Color Routes */
-    const cs225::HSLAPixel ROUTE_PIXEL = cs225::HSLAPixel(120, 1, 0.5, 1);
     //cs225::PNG outImage(backgroundImageAirports_);
     //cs225::PNG outImage;
     //outImage.readFromFile(pngPath);
@@ -100,13 +110,13 @@ void MapImage::drawRoute(string source, string dest, cs225::PNG& image){
     /* END of TODO: */
 
     /* Draws the Line between the two points */
-    drawLine(start, end, ROUTE_PIXEL, image);
+    drawLine(start, end, ROUTE_PIXEL, image, frameCounter);
 
     /* TODO: Get rid of this file write*/
     //outImage.writeToFile(outFileName);
 }
 
-void MapImage::drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel color, cs225::PNG& png){
+void MapImage::drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel color, cs225::PNG& png, int& frameCounter){
 
     // optional Make a small circle around the start and end points if time
 
@@ -153,11 +163,19 @@ void MapImage::drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel
         int width = png.width();
         int x =  ((((int) round(x1)) % width) + width) % width;
         cs225::HSLAPixel & pixel = png.getPixel((unsigned) x, (unsigned)(round(y1)));
-        
+
         pixel = color;
         x1 = x1 + xinc;
         y1 = y1 + yinc;
+
+        /* increment frames and add to animation if necessary */
+        if (frameCounter % FRAME_SPEED == 0) {
+            cs225::PNG tempPNG(png);
+            animation_.addFrame(tempPNG);
+        }
+        frameCounter++;
     }
+
 }
 
 void MapImage::initializeLocationMap(vector<RouteDistance> routes) {

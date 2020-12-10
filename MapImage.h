@@ -3,6 +3,7 @@
 #include "RouteGraph.h"
 #include "AirportList.hpp"
 #include "cs225/PNG.h"
+#include "Animation.h"
 
 #include <string>
 #include <vector>
@@ -33,10 +34,25 @@ class MapImage {
         */
         void drawShortestPath(string source, string dest, string outFileName);
 
+        /**
+        * @param outFileName : the file location to be written to
+        */
+        void playAnimation(string outFileName);
+
     private:
+
+        /* constant variables */
+        const int FRAME_SPEED = 10;
+
+        const cs225::HSLAPixel POINT_PIXEL = cs225::HSLAPixel(20, 1, 0.5, 1);
+        const cs225::HSLAPixel BORDER_PIXEL = cs225::HSLAPixel(20, 1, 0.65, 1);
+        const cs225::HSLAPixel ROUTE_PIXEL = cs225::HSLAPixel(120, 1, 0.5, 1);
 
         /* data structure storing airport connections */
         RouteGraph graph_;
+
+        /* structure to hold animation information */
+        Animation animation_;
 
         /* map background image */
         cs225::PNG backgroundImage_;
@@ -63,8 +79,9 @@ class MapImage {
          * @param end the ending Coordinate
          * @param color the color to draw the line with
          * @param png the PNG to draw the line on
+         * @param frameCounter the current frame count
          */
-        void drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel color, cs225::PNG& png);
+        void drawLine(Coordinate start, Coordinate end, const cs225::HSLAPixel color, cs225::PNG& png, int& frameCounter);
 
         /** Initializes the map to locate airport xy-coordinates for O(1) lookup
         * @param routes : a vector of RouteDistances obtained from the RouteGraph BFS
@@ -90,6 +107,7 @@ class MapImage {
          * @param source The airport to depart from
          * @param dest The airport to travel to
          * @param image Reference to the png being written to
+         * @param frameCounter Counter for the current frame
          */
-        void drawRoute(string source, string dest, cs225::PNG& image);
+        void drawRoute(string source, string dest, cs225::PNG& image, int& frameCounter);
 };
