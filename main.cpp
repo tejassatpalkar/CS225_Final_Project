@@ -8,30 +8,37 @@
 #include "dijkstra.hpp"
 
 int main(int argc, const char * argv[]) {
-	//std::cout << "Filename: " << argv[1] << std::endl;
 
-	/* ensures a file is passed as an argument */
-	if (argc != 3) {
-		std::cout << "Please pass in two valid file directories as arguments" << std::endl;
-		std::cout << "The first argument should be the airports file name, followed by the routes file name" << std::endl;
-		return 2;
+	/* ensures valid arguments are pssed */
+	if (argc != 7) {
+		std::cout << "------------------" << std::endl;
+		std::cout << "ERROR: Please pass in the following arguments" << std::endl;
+		std::cout << "Argument 1: Airport Dataset File Location" << std::endl;
+		std::cout << "Argument 2: Routes Dataset File Location" << std::endl;
+		std::cout << "Argument 3: Airport Source" << std::endl;
+		std::cout << "Argument 4: Airport Destination" << std::endl;
+		std::cout << "Argument 5: Image Destination File Name (must end in .png)" << std::endl;
+		std::cout << "Argument 6: Image Destination File Name (must end in .gif)" << std::endl;
+		std::cout << "------------------\nPlease make the above changes and run again" << std::endl;
+		return -1;
 	}
 
+	/* console output to verify inputs */
+	std::cout << "------------------\nAttempting to find the shorest path between Airport " << argv[3] << " and Airport " << argv[4] << "\n------------------" << std::endl;
 
-	// MapImage map(argv[1], argv[2]);
-	//map.drawAirports("out.png");
-	//map.drawRoute("507", "3127", "out.png", "outLine.png");
+	/* create the map */
+	std::cout << "Creating the map..." << std::endl;
+	MapImage map(argv[1], argv[2]);
 
-	// map.drawShortestPath("", "", "out.png");
-	// map.playAnimation("out.gif");
-	AirportList air("data/airports.dat");
-	std::cout << "finish airporrtlist" << std::endl;
-	RouteGraph route("data/routes.dat",air);
-	std::cout << "finish routegraph" << std::endl;
-	dijkstra dk(route);
-	std::cout << "finish dk" << std::endl;
-	vector<string> path = dk.findShortestPath(argv[1],argv[2]);// two arguments for start and end points
-	for (auto i : path){
-		std::cout << i <<std::endl;
-	}
+	/* find the shortest path */
+	std::cout << "Finding the shortest path..." << std::endl;
+	map.drawShortestPath(argv[3], argv[4], argv[5]);
+
+	/* export the files */
+	std::cout << "Exporting the GIF..." << std::endl;
+	map.playAnimation(argv[6]);
+
+	/* verify success output */
+	std::cout << "------------------\nSuccess!\nYou can view the full path at results/" << argv[5] << " and the path animation at results/" << argv[6] << std::endl;
+	return 0;
 };

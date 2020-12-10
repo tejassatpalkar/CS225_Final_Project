@@ -4,6 +4,7 @@
 #include "AirportList.hpp"
 #include "cs225/PNG.h"
 #include "Animation.h"
+#include "dijkstra.hpp"
 
 #include <string>
 #include <vector>

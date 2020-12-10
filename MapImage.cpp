@@ -1,6 +1,5 @@
 #include "MapImage.h"
 
-#include <iostream>
 
 MapImage::MapImage(string airportFile, string routeFile) {
     /* create the airport list */
@@ -44,9 +43,9 @@ void MapImage::drawShortestPath(string source, string dest, string outFileName) 
     int frameCounter = 0;
     cs225::PNG airportMap(backgroundImage_);
 
-    /* TODO: get the path using dijkstra's algorithm */
-    //vector<string> path = graph_.djikstra(source, dest);
-    vector<string> path = vector<string>{"1905", "146", "6343"};
+    /* get the shortest path using Dijkstra's Algorithm */
+    Dijkstra pathFinder(graph_);
+    vector<string> path = pathFinder.findShortestPath(source, dest);
 
     /* draw the airports on the map */
     drawAirports(airportMap);
@@ -65,12 +64,12 @@ void MapImage::drawShortestPath(string source, string dest, string outFileName) 
     }
 
     /* draw the map */
-    airportMap.writeToFile(outFileName);
+    airportMap.writeToFile("results/" + outFileName);
 }
 
 void MapImage::playAnimation(string outFileName) {
     /* calls the animation write method */
-    animation_.write(outFileName);
+    animation_.write("results/" + outFileName);
 }
 
 

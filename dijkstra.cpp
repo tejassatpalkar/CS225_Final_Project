@@ -9,7 +9,7 @@ using std::string;
 using std::vector;
 using std::remove;
 
-dijkstra::dijkstra(RouteGraph obj){
+Dijkstra::Dijkstra(RouteGraph obj){
     //std::cout << "in dk constructor" << std::endl;
     Edge_ = obj.getAllRoutes();
     graph_ = obj.getGraph();
@@ -25,7 +25,7 @@ dijkstra::dijkstra(RouteGraph obj){
     //std::cout << "constructor complete" << std::endl;
 }
 
-vector<string> dijkstra::findShortestPath(string start, string end){
+vector<string> Dijkstra::findShortestPath(string start, string end){
     Vertex_[start].dist = 0.0;
     vector<string> Q;
     string u;
@@ -90,7 +90,7 @@ vector<string> dijkstra::findShortestPath(string start, string end){
     return result;
 }
 
-string dijkstra::find_min(vector<string> Q){
+string Dijkstra::find_min(vector<string> Q){
     string min_node;
     double min = std::numeric_limits<float>::infinity();
     for (auto i : Q){
@@ -102,7 +102,7 @@ string dijkstra::find_min(vector<string> Q){
     return min_node;
 }
 
-dijkstra::node::node(){
+Dijkstra::node::node(){
     visited = false;
     prev = "UNDEFINED"; 
     dist = std::numeric_limits<float>::infinity();

@@ -18,7 +18,7 @@ typedef pair<float, float> Location;
 typedef pair<Route, pair<Location, Location>> RouteDistance; 
 
 
-class dijkstra{
+class Dijkstra {
     public:
         class node{
             public:
@@ -28,7 +28,7 @@ class dijkstra{
                 double dist;
         };
 
-        dijkstra(RouteGraph obj);
+        Dijkstra(RouteGraph obj);
 
         vector<string> findShortestPath(string start, string end);
 
