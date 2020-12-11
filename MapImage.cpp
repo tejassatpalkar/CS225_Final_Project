@@ -7,6 +7,8 @@ MapImage::MapImage(string airportFile, string routeFile) {
 
 	/* initialize the route graph and pass in the airport list */
 	graph_ = RouteGraph(routeFile, airportList);
+    aFile = airportFile;
+    rFile = routeFile;
 
     /* initialize the file to read from */
     backgroundImage_.readFromFile("images/map.png");
@@ -199,4 +201,93 @@ void MapImage::addLocation(string airport, Location location) {
 
     /* otherwise, add the coordinate to the map */
     locationMap_[airport] = location2graph(location, adjWidth_, adjHeight_, offset_);
+}
+
+void MapImage::drawAllRoutes(){
+    PNG mapToDrawOn(backgroundImage_);
+    Animation allRoutegif;
+
+    /* draw the airports on the map */
+    drawAirports(mapToDrawOn);
+    allRoutegif.addFrame(mapToDrawOn);
+
+
+    /*  Note a RouteDistance is a pair<Route, pair<Location, Location>>  where each Location is a pair of coordiantes
+        To draw all the routes, I am only concerned with the Locations
+    */
+    graph_ = RouteGraph(rFile, aFile);
+    vector<RouteDistance> routes = graph_.getAllRoutes();
+    //size_t routeSize = routes.size();
+    int count = 0;
+    for (const RouteDistance& routeDistance : routes) {
+        /* grab our needed variables */
+        pair<Location, Location> locations = routeDistance.second;
+        /* The source Coordinate is in locations.first and the destination Coordinate is in locations.second */
+        Coordinate source = location2graph(locations.first, adjWidth_, adjHeight_, offset_);
+        Coordinate destination = location2graph(locations.second, adjWidth_, adjHeight_, offset_);
+        drawLineWithoutAnimation(source, destination, ROUTE_PIXEL, mapToDrawOn);
+        if (count %4000 == 0){
+            allRoutegif.addFrame(mapToDrawOn);  
+        }
+        count++;
+                
+    }
+    mapToDrawOn.writeToFile("results/allRoutes.png");
+    allRoutegif.write("results/allRoutes.gif");
+}
+
+void MapImage::drawLineWithoutAnimation(Coordinate start, Coordinate end, const cs225::HSLAPixel color, cs225::PNG& png){
+    // optional Make a small circle around the start and end points if time
+
+    /* Implementation of the DDA algorithm with help from https://www.youtube.com/watch?v=W5P8GlaEOSI */
+    double x1,x2, y1,y2, delta_x, delta_y, s, xinc, yinc;
+    x1 = start.first;
+    y1 = start.second;
+    x2 = end.first;
+    y2 = end.second;
+    delta_x = x2-x1;
+    delta_y = y2-y1;
+
+    /* This segment checks if it is closer for the line to wrap around the image */
+    double stdDistance = sqrt(delta_x * delta_x + delta_y * delta_y);
+    double wx1 = x1, wx2 = x2, wdelta_x;
+    if (x1 <= x2){
+        wx2 = wx2 - png.width();
+    } else {
+        wx1 = wx1 - png.width();
+    }
+    wdelta_x = wx2 - wx1;
+    double wDistance = sqrt(wdelta_x * wdelta_x + delta_y * delta_y);
+
+    if (wDistance <= stdDistance){
+        delta_x = wdelta_x;
+        x1 = wx1;
+        x2 = wx2;
+    }
+    
+    
+    /* Essentailly checking if slope is greater than or less than one to determine step size */
+    if (abs(delta_x) > abs(delta_y)){
+        s = abs(delta_x);
+    } else {
+        s = abs(delta_y);
+    }
+
+    /*Compute the respective dimension increments */
+    xinc = delta_x/s;
+    yinc = delta_y/s;
+
+    /* Replace pixel with color to mark path */
+    for (unsigned i = 0; i < s; i++){
+        int width = png.width();
+        int x =  ((((int) round(x1)) % width) + width) % width;
+        cs225::HSLAPixel & pixel = png.getPixel((unsigned) x, (unsigned)(round(y1)));
+
+        pixel = color;
+        x1 = x1 + xinc;
+        y1 = y1 + yinc;
+
+        
+    }
+
 }
