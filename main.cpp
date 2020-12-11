@@ -24,7 +24,7 @@ int main(int argc, const char * argv[]) {
 	}
 
 	/* console output to verify inputs */
-	std::cout << "------------------\nAttempting to find the shorest path between Airport " << argv[3] << " and Airport " << argv[4] << "\n------------------" << std::endl;
+	std::cout << "------------------\nAttempting to find the shortest path between Airport " << argv[3] << " and Airport " << argv[4] << "\n------------------" << std::endl;
 
 	/* create the map */
 	std::cout << "Creating the map..." << std::endl;
@@ -33,6 +33,10 @@ int main(int argc, const char * argv[]) {
 	/* find the shortest path */
 	std::cout << "Finding the shortest path..." << std::endl;
 	map.drawShortestPath(argv[3], argv[4], argv[5]);
+
+	/* Drawing All the Routes */
+	std::cout << "Drawing all the Routes..." <<std::endl;
+	map.drawAllRoutes();
 
 	/* export the files */
 	std::cout << "Exporting the GIF..." << std::endl;

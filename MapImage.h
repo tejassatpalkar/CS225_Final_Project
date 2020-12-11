@@ -40,6 +40,11 @@ class MapImage {
         */
         void playAnimation(string outFileName);
 
+        /**
+         * Draws all the possible Routes and outputs them as allRoutes.png and allRoutes.gif in results folder
+         */
+        void drawAllRoutes();
+
     private:
 
         /* constant variables */
@@ -51,6 +56,10 @@ class MapImage {
 
         /* data structure storing airport connections */
         RouteGraph graph_;
+
+        /*Storing input file names to use with drawing all routes */
+        string aFile;
+        string rFile;
 
         /* structure to hold animation information */
         Animation animation_;
@@ -111,4 +120,17 @@ class MapImage {
          * @param frameCounter Counter for the current frame
          */
         void drawRoute(string source, string dest, cs225::PNG& image, int& frameCounter);
+
+
+        
+
+        /**
+         * Draws a Line on given PNG between start and end Coordinate onto the PNG with provided color
+         * Does not affect the Animation when called
+         * @param start the starting Coordinate
+         * @param end the ending Coordinate
+         * @param color the color to draw the line with
+         * @param png the PNG to draw the line on
+         */
+        void drawLineWithoutAnimation(Coordinate start, Coordinate end, const cs225::HSLAPixel color, cs225::PNG& png);
 };
