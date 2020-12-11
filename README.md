@@ -59,6 +59,10 @@ For this demo we will be running the following command
 
 After running this command, there will be two files found in the `results` folder, `out.png` and `out.gif`
 
+The console will inform you of this
+
+![Console Output](demo/console.png)
+
 Image representation of the shortest path:
 
 ![Path Image](demo/out.png)
