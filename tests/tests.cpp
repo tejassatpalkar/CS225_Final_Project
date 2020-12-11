@@ -8,6 +8,7 @@
 #include "../readFromFile.hpp"
 #include "../Utility.h"
 #include "../RouteGraph.h"
+#include "../dijkstra.hpp"
 
 using std::string;
 using std::vector;
@@ -171,5 +172,24 @@ TEST_CASE("Validate BFS Traversal of a RouteGraph", "[RouteGraph]") {
 	}
 }
 
+TEST_CASE("Verify that Dijkstra's algorithm works on a single node","[dijkstra]"){
+	AirportList al("data/airports.dat");
+	RouteGraph rg("data/routes.dat", al);
+	Dijkstra dk(rg);
+	vector<string> path = dk.findShortestPath("5","5");
+	vector<string> expected{"5"};
+	SECTION("Only one element in output path") {
+		REQUIRE(path == expected);
+	}
+}
 
-
+TEST_CASE("Verify that Dijkstra's algorithm works on a general case","[dijkstra]"){
+	AirportList al("data/airports.dat");
+	RouteGraph rg("data/routes.dat", al);
+	Dijkstra dk(rg);
+	vector<string> path = dk.findShortestPath("2","9");
+	vector<string> expected{"2","5","2279","609","9"};
+	SECTION("Output path matches expected output") {
+		REQUIRE(path == expected);
+	}
+}

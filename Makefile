@@ -66,8 +66,8 @@ AirportList.o: main.cpp AirportList.cpp  AirportList.hpp Airport.h readFromFile.
 dijkstra.o: main.cpp dijkstra.cpp dijkstra.hpp Utility.h AirportList.hpp RouteGraph.h
 	$(CXX) $(CXXFLAGS) main.cpp dijkstra.cpp Utility.cpp AirportList.cpp RouteGraph.cpp
 
-test: output_msg catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp AirportList.cpp Airport.cpp
-	$(LD) catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp AirportList.cpp Airport.cpp $(LDFLAGS) -o test
+test: output_msg catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp AirportList.cpp Airport.cpp dijkstra.cpp
+	$(LD) catch/catchmain.cpp tests/tests.cpp readFromFile.cpp Utility.cpp RouteGraph.cpp graph.cpp AirportList.cpp Airport.cpp dijkstra.cpp $(LDFLAGS) -o test
 
 clean:
 	-rm -f *.o $(EXENAME) test
