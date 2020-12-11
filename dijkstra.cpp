@@ -56,7 +56,7 @@ vector<string> Dijkstra::findShortestPath(string start, string end){
     while(!Q.empty()){
         u = find_min(Q);
         // std::cout << u << std::endl;
-        // Vertex_[u].visited = true;
+        Vertex_[u].visited = true;
         Q.erase(remove(Q.begin(),Q.end(),u),Q.end());
         // for (auto i : Q) std::cout << i << std::endl;
         if (u == end) break;
@@ -66,7 +66,7 @@ vector<string> Dijkstra::findShortestPath(string start, string end){
             // std::cout << "Inner loop" << std::endl;
             if (Vertex_[v].visited) continue;
             Q.push_back(v);
-            Vertex_[v].visited = true;
+            // Vertex_[v].visited = true;
             alt = Vertex_[u].dist + Route_[pair<string,string>(u,v)];
             if (alt < Vertex_[v].dist){
                 // std::cout << "update prev" << std::endl;
