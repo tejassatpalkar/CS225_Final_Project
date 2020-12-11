@@ -34,9 +34,10 @@ int main(int argc, const char * argv[]) {
 	std::cout << "Finding the shortest path..." << std::endl;
 	map.drawShortestPath(argv[3], argv[4], argv[5]);
 
-	/* Drawing All the Routes */
-	std::cout << "Drawing all the Routes..." <<std::endl;
-	map.drawAllRoutes();
+	/* Optional: You can uncomment the following segment to draw All Routes. Output is found in results/allRoutes.png and results/allRoutes.gif */
+	// /* Drawing All the Routes */ 
+	// std::cout << "Drawing all the Routes..." <<std::endl;
+	// map.drawAllRoutes();
 
 	/* export the files */
 	std::cout << "Exporting the GIF..." << std::endl;
