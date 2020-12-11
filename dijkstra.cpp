@@ -10,19 +10,17 @@ using std::vector;
 using std::remove;
 
 Dijkstra::Dijkstra(RouteGraph obj){
-    //std::cout << "in dk constructor" << std::endl;
+    // Initialize the edges and graph
     Edge_ = obj.getAllRoutes();
     graph_ = obj.getGraph();
-    //std::cout << "edges received" << std::endl;
+    // Genrate the map for routes and their indicated distance
     for (auto i : Edge_){
         Route_.insert(pair<Route,double>(i.first,distance(i.second.first,i.second.first)));
     }
-    //std::cout << "routes created" << std::endl;
+    // Generate the map of nodes storing the information for each vertices when running Dijkstra's algorithm
     for (auto i : graph_.getVertices()){
         Vertex_.insert(pair<string,node>(i,node()));
-        //adjacency.insert(pair<string,vector<string> >(i,obj.getGraph().getAdjacent(i)));
     }
-    //std::cout << "constructor complete" << std::endl;
 }
 
 vector<string> Dijkstra::findShortestPath(string start, string end){
@@ -30,46 +28,22 @@ vector<string> Dijkstra::findShortestPath(string start, string end){
     vector<string> Q;
     string u;
     double alt;
-    // std::cout << "in dk algorithm" << std::endl;
-    // for (auto i : Vertex_){
-    //     Q.push_back(i.first);
-    // }
-    // std::cout << "Q initialized" << std::endl;    
-    // while(!Q.empty()){
-    //     u = find_min(Q);
-    //     std::cout << "min found" << std::endl;
-    //     Q.erase(remove(Q.begin(),Q.end(),u),Q.end());
-    //     for (auto i : Q) std::cout << i << std::endl;
-    //     std::cout << "Q updated" << std::endl;
-    //     if (u == end) break;
-    //     for (auto v : graph_.getAdjacent(u)){
-    //         alt = Vertex_[u].dist + Route_[pair<string,string>(u,v)];
-    //         if (alt < Vertex_[v].dist){
-    //             Vertex_[v].dist = alt;
-    //             Vertex_[v].prev = u;
-    //         }
-    //     }
-    // }
-    // std::cout << "loop begin" << std::endl;
-
+    // Push the starting point
     Q.push_back(start);
     while(!Q.empty()){
+        // find the smallest distance, set as visited and pop from Q
         u = find_min(Q);
-        // std::cout << u << std::endl;
         Vertex_[u].visited = true;
         Q.erase(remove(Q.begin(),Q.end(),u),Q.end());
-        // for (auto i : Q) std::cout << i << std::endl;
+        // end the algorithm if the end point is popped
         if (u == end) break;
-        // std::cout << "Not break" << std::endl;
-        
+        // update Q by pushing all unvisited neighbor nodes into Q
         for (auto v : graph_.getAdjacent(u)){
-            // std::cout << "Inner loop" << std::endl;
             if (Vertex_[v].visited) continue;
             Q.push_back(v);
-            // Vertex_[v].visited = true;
+            // update the state of the nodes
             alt = Vertex_[u].dist + Route_[pair<string,string>(u,v)];
             if (alt < Vertex_[v].dist){
-                // std::cout << "update prev" << std::endl;
                 Vertex_[v].dist = alt;
                 Vertex_[v].prev = u;
             }
@@ -77,6 +51,8 @@ vector<string> Dijkstra::findShortestPath(string start, string end){
     }
 
     std::list<string> path;
+    
+    // back track to find the entire path
     u = end;
     if (Vertex_[u].prev != "UNDEFINED" || u ==start){
         while(u != "UNDEFINED"){
@@ -84,8 +60,7 @@ vector<string> Dijkstra::findShortestPath(string start, string end){
             u = Vertex_[u].prev;
         }
     }
-    //std::cout << "form path" << std::endl;
-
+    // transfer the path from vector to list
     vector<string> result(path.begin(),path.end());
     return result;
 }
@@ -93,6 +68,7 @@ vector<string> Dijkstra::findShortestPath(string start, string end){
 string Dijkstra::find_min(vector<string> Q){
     string min_node;
     double min = std::numeric_limits<float>::infinity();
+    // traverse through the vector and returns the smallest distance
     for (auto i : Q){
         if (Vertex_[i].dist < min){
             min = Vertex_[i].dist;
@@ -103,6 +79,7 @@ string Dijkstra::find_min(vector<string> Q){
 }
 
 Dijkstra::node::node(){
+    // initialize the values of node
     visited = false;
     prev = "UNDEFINED"; 
     dist = std::numeric_limits<float>::infinity();
