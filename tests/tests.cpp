@@ -34,7 +34,12 @@ TEST_CASE("Verify that file_to_vector works on a small example") {
 TEST_CASE("Verify that Utility Class Distance function works") {
 	std::vector<std::string> data = file_to_vector("test_coordinates_distances.csv");
 
+	//solutions vector contains real distances from google maps between the coordinates p(2*n + 1) and p(2*n + 2) for n >=0
+
+	/* To test further ,  append a distance in km between two coordinates in the solutions vector */
 	std::vector<double> solutions{3039.15,1117.83, 12656.4, 9220.13, 2981.89};
+
+	// pn is of form (Latitude, Longitude) 
 	std::pair<double,double> p1(33.63100052,-85.15200043);
 	std::pair<double,double> p2(40.06639862,-118.5650024);
 	std::pair<double,double> p3(53.31919861,-117.7529984);
@@ -46,6 +51,9 @@ TEST_CASE("Verify that Utility Class Distance function works") {
 	std::pair<double,double> p9(26.75460052,55.90240097);
 	std::pair<double,double> p10(23.31430054,85.32170105);
 
+	/* Uncomment to test your own two coordinates */
+	// std::pair<double,double> p11([input lat here],[input long here]);
+	// std::pair<double,double> p12([input lat here],[input long here]);
 	
 
 	REQUIRE(((distance(p1,p2) <= solutions[0] + solutions[0]*0.05) && (distance(p1,p2) >= solutions[0] - solutions[0]*0.05)));
@@ -53,6 +61,8 @@ TEST_CASE("Verify that Utility Class Distance function works") {
 	REQUIRE(((distance(p5,p6) <= solutions[2] + solutions[2]*0.05) && (distance(p5,p6) >= solutions[2] - solutions[2]*0.05)));
 	REQUIRE(((distance(p7,p8) <= solutions[3] + solutions[3]*0.05) && (distance(p7,p8) >= solutions[3] - solutions[3]*0.05)));
 	REQUIRE(((distance(p9,p10) <= solutions[4] + solutions[4]*0.05) && (distance(p9,p10) >= solutions[4] - solutions[4]*0.05)));
+	/* uncomment if p11 and p12 are created */
+	// REQUIRE(((distance(p11,p12) <= solutions[5] + solutions[5]*0.05) && (distance(p11,p12) >= solutions[5] - solutions[5]*0.05)));
 }
 
 
