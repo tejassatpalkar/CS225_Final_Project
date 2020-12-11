@@ -61,11 +61,11 @@ After running this command, there will be two files found in the `results` folde
 
 Image representation of the shortest path:
 
-![Path Image](results/out.png)
+![Path Image](demo/out.png)
 
 Animated representation of the shortest path:
 
-![Path Animation](results/out.gif)
+![Path Animation](demo/out.gif)
 
 ### Tests Demo
 
@@ -83,6 +83,10 @@ make test
 ./test
 ```
 
+After running our test cases, you should see the following output
+
+![Test Cases](demo/tests.png)
+
 ## Authors
 
 * **Nishant Balepur**
@@ -93,4 +97,4 @@ make test
 ## Acknowledgments
 
 * This project was created as a final project for [CS225](https://courses.engr.illinois.edu/cs225/fa2020/)
-* TODO: insert various stack overflow links for whatever
+* Our flight data was taken from [OpenFlights](https://openflights.org/data.html)
