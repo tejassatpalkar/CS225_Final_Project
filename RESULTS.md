@@ -31,17 +31,17 @@ In all, our project is able to take in inputs of source data files for airports 
 * The shortest path between two Airports was shown to not be a straight line between the two airports, but rather often involves a connecting flight to a major airport
 * When traveling from Champaign Airport (CMI) to Shanghai (PVG), the shortest path will contain O’hare International Airport. Though a direct flight would minimize distance, CMI does not have the plane type to travel such a large distance without any stops.
 
-Champaign, IL (4049) -> Shanghai, China (3406)
+### Champaign, IL (4049) -> Shanghai, China (3406)
 
 ![Animation of Flight from Champaign to Shanghai](demo/champaign.gif)
 
 * After visualizing all the routes, we noticed that Europe was almost entirely covered by Routes. There appears to be quite a number of flights from the United States to Asia. The least sparse areas of the map were areas with a small density of airports that are most likely domestic. Areas such as Northern Canada, the bottom of South America, Greenland, and the Angola/Congo region fit this description. 
 
-All Routes Visualized
+### All Routes Visualized
 
 ![All Routes](demo/allRoutes.png)
 
-All Routes Animated 
+### All Routes Animated 
 
 ![All Routes](demo/allRoutes.gif)
 
