@@ -2,6 +2,8 @@
 
 This project explores the directed graph data structure and specifically how it can be applied to finding the shortest path between two airports. We allow the user to input certain parameters, such as the starting and ending airport location, to create a visual representation of all the different airports and the shortest path between airports
 
+You can watch a presentation about this project [here](https://drive.google.com/file/d/1YRDB0WsCnld8NfuwxD0QlKlhlv9hBuvz/view?usp=sharing)
+
 ## Getting Started
 
 To get this project running on your machine, follow the steps below
