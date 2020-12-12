@@ -10,7 +10,7 @@ To get this project running on your machine, follow the steps below
 
 ### Prerequisites and Installation
 
-We recommend you run this device on the University's EWS system. For instructions on how to set this up, follow the instructions [here](https://courses.engr.illinois.edu/cs225/fa2020/resources/own-machine/)
+We recommend you run this project on the University's EWS system. For instructions on how to set this up, follow the instructions [here](https://courses.engr.illinois.edu/cs225/fa2020/resources/own-machine/)
 
 You will also need the required version of Clang to compile our program with the Makefile. Once you're on EWS, you can load the correct version of Clang with the command below
 
@@ -92,6 +92,8 @@ make test
 After running our test cases, you should see the following output
 
 ![Test Cases](demo/tests.png)
+
+*Note: Some of our cases were validated externally through Python, which can be found [here](https://jovian.ai/nishantbalepur/cs225-test)*
 
 ## Authors
 
